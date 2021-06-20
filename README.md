@@ -2,6 +2,8 @@
 
 mkcert を使ってローカルに HTTPS 環境を建てる
 
+タスクリストは[TASKs.md](./TASKs.md)で管理
+
 ### 開発環境
 
 + Windows 10 Home
@@ -75,6 +77,8 @@ localhost+1.pem localhost+1-key.pem
 でも現状HTTP/2を話してくれない…
 + HTTP/2対応のNginxイメージ(`ehekatl/docker-nginx-http2`)でもだめだった
 + [このページ](https://tech.recruit-mp.co.jp/infrastructure/post-12795/) で使われていた `nginx:1.13.5-alpine` でもだめ
+  
+結局，IPv6 でアクセスしてたらしく設定を追加したら疎通
 
 </div></details>
 
