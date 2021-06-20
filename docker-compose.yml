@@ -1,0 +1,36 @@
+version: '3.7'
+services: 
+  nginx:
+    container_name: mkcert-nginx
+    hostname: web
+    image: nginx:1.21.0-alpine
+    # image: nwtgck/nginx-http3
+    working_dir: /var/www/html/web
+    restart: always
+    volumes: 
+      - ./nginx/cert-key/:/etc/certs/
+      - ./nginx/web:/var/www/html/web
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    depends_on:
+      - "goapp"
+
+  goapp:
+    container_name: goapp
+    tty: true
+    restart: always
+    build:
+      context: .
+      dockerfile: ./goapp/Dockerfile.dev
+    volumes: 
+      - ./goapp:/app/goapp
+      - ./nginx/cert-key:/app/goapp/cert
+    ports:
+      - "6121:6121"
+    # 開発時はデバッグも兼ねて外から直接アクセスできるように
+    # expose: 
+    #  - "6121"
+    

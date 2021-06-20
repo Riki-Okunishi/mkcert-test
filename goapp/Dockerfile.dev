@@ -1,0 +1,17 @@
+FROM golang:latest
+
+WORKDIR /app/goapp
+
+# うまくコピーできないので現状volumeマウントで対処
+# COPY ./nginx/cert-key .
+
+ENV GO111MODULE=on
+
+RUN go mod init github.com/Riki-Okunishi/goapp
+
+# "\" での改行連結を失敗しがち
+RUN go get -u github.com/gin-gonic/gin && go get -u github.com/cosmtrek/air && go get -u github.com/gorilla/mux && go get -u github.com/lucas-clemente/quic-go
+
+RUN air init
+
+CMD [ "air" ]
